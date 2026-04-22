@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="Guoname">
+    <xacro:include filename="$(find demo_cpp_slam)/urdf/Guobot/common_inertia.urdf.xacro"/>
+    <xacro:macro name = "camera_xacro" params = "xyz">
+        <link name="camera_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>  
+                <geometry>
+                    <box size="0.02 0.10 0.02"/>
+                </geometry>
+                <material name="green">
+                    <color rgba="0.0 1.0 0.0 0.8"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>  
+                <geometry>
+                    <box size="0.02 0.10 0.02"/>
+                </geometry>
+                <material name="green">
+                    <color rgba="0.0 1.0 0.0 0.8"/>
+                </material>
+            </collision>
+            <gazebo reference = "laser_link">
+                <material>
+                    Gazebo/Yellow
+                </material>
+            </gazebo>
+            <xacro:box_inertia m = "0.45" w = "0.02" h = "0.02" d = "0.10"/>
+        </link>
+        <link name="camera_optical_link"/>
+       
+        <joint name="camera_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="camera_link"/>
+            <origin xyz="${xyz}"/>
+        </joint>
+
+         <joint name = "camera_optical_joint" type = "fixed">
+            <parent link="camera_link"/>
+            <child link="camera_optical_link"/>
+            <origin xyz="0 0 0" rpy="${-pi/2} 0.0 ${-pi/2}"/>
+        </joint>
+    </xacro:macro>
+    <gazebo reference = "camera_link">
+        <material>
+            Gazebo/Green
+        </material>
+    </gazebo>
+</robot>
